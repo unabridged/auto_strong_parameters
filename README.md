@@ -32,8 +32,9 @@ After:
 <% end %>
 
 
-# Controller - require/permit already done
-@user = User.create(params[:user])
+# Controller - no enumeration required, your form dictates what is allowed
+user_params = params.require(:user).auto_permit
+@user = User.create(user_params)
 ```
 
 
@@ -43,14 +44,6 @@ Add to your Gemfile, `bundle install` and go.
 
 ```ruby
 gem 'strong_parameters-auto'
-```
-
-## API
-
-Use the data attribute `data-sp_auto_extra` to instruct your form to include fields that should be allowed but not be there when the form renders. The value should be a Hash or Array in the shape of a typical Strong Paramters hash. It will be merged with the auto-generated shape.
-
-```ruby
-<%= form_with model, data: { sp_auto_extra: [:time_zone] } %>
 ```
 
 ## Motivation
@@ -78,3 +71,17 @@ The natural solution is for each form to handle authorizing its own set of param
 ### Why support Rails 4?
 
 There are thousands of Rails apps on old versions of Rails maintained by small teams that are daunted by big upgrades. This gem aims to help make working with Strong Parameters easier and more seamless. One big way we can do that is help relieve the maintenance burden for folks on old versions of Rails.
+
+
+
+# TODO list
+
+- Add a hidden field with a string of all the fields used in the form builder
+- Add a hidden field with a signature, take value toJson, sign and encrypt it
+- Look at how cookies are decrypted to decrypt server-side
+- Patch ActionController::Parameters to have auto_permit and use the shape from the form
+- For upgrades, we can suggest / allow a setting to try to catch the exception that SP raises and try to call auto_permit and don't raise.
+
+
+# Future enhancements
+- Add option to enforce that selects or really any values are submitted are only within the choicies that were actually rendered in the form. This makes the most sense for foreign keys.
