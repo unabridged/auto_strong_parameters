@@ -1,6 +1,6 @@
 require 'bundler/setup'
 require 'minitest/autorun'
-require 'example'
+require 'pry'
 
 ENV["RAILS_ENV"] = "test"
 ENV['DATABASE_URL'] = 'sqlite3://localhost/:memory:'
@@ -18,4 +18,6 @@ when "6.1"
   require "apps/rails61"
 when "7.0"
   require "apps/rails70"
+else
+  raise "Un-tested version of Rails: #{Rails.version}"
 end
