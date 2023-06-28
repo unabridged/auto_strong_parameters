@@ -1,6 +1,6 @@
-# Automatic Strong Parameters
+# Auto Strong Parameters
 
-Automatic Strong Parameters detects the fields included in a form and automatically permits them in the controller. You no longer need to manually enumerate the params you've submitted. You can fall back to standard Strong Parameters when you need custom behavior.
+Auto Strong Parameters detects the fields included in a form and automatically permits them in the controller. You no longer need to manually enumerate the params you've submitted. You can fall back to standard Strong Parameters when you need custom behavior.
 
 Rails 4.0 introduced Rails developers to the world of Strong Parameters. This gem is an extension to the model that Strong Parameters introduced, intended to reduce or eliminate the busy work that Strong Paramters introduced. As Giles Bowkett wrote, "tedious, repetitive work is for computers to do."
 
@@ -43,7 +43,7 @@ user_params = params.require(:user).auto_permit
 Add to your Gemfile, `bundle install` and go.
 
 ```ruby
-gem 'strong_parameters-auto'
+gem 'auto_strong_parameters'
 ```
 
 ## Motivation

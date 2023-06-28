@@ -1,0 +1,2 @@
+module AutoStrongParameters::ControllerPermitter
+end
