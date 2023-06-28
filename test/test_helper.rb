@@ -1,32 +1,21 @@
-# Configure Rails Environment
+require 'bundler/setup'
+require 'minitest/autorun'
+require 'example'
+
 ENV["RAILS_ENV"] = "test"
+ENV['DATABASE_URL'] = 'sqlite3://localhost/:memory:'
 
 require 'rails'
 
-class FakeApplication < Rails::Application; end
-
-Rails.application = FakeApplication
-Rails.configuration.action_controller = ActiveSupport::OrderedOptions.new
-
-require 'strong_parameters/auto'
-
-module ActionController
-  SharedTestRoutes = ActionDispatch::Routing::RouteSet.new
-  SharedTestRoutes.draw do
-    get ':controller(/:action)'
-  end
-
-  class Base
-    include ActionController::Testing
-    include SharedTestRoutes.url_helpers
-  end
-
-  class ActionController::TestCase
-    setup do
-      @routes = SharedTestRoutes
-    end
-  end
+case Rails.version.slice(0, 3)
+when "4.2"
+  require "apps/rails42"
+when "5.2"
+  require "apps/rails52"
+when "6.0"
+  require "apps/rails60"
+when "6.1"
+  require "apps/rails61"
+when "7.0"
+  require "apps/rails70"
 end
-
-# Load support files
-Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
