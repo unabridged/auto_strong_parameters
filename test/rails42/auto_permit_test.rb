@@ -9,8 +9,11 @@ class FormTest < ActionController::TestCase
 
   def user_params
     {
-      name: 'Drew',
-      age: '22',
+      name: 'John',
+      age: '30',
+      pets: [
+        { name: "Fluffy", kind: "dog" }
+      ],
     }
   end
 
@@ -19,7 +22,7 @@ class FormTest < ActionController::TestCase
   end
 
   def permitted_keys
-    user_params.keys.map(&:to_s)
+    ['name', 'age', { 'pets' => ['name', 'kind'] }]
   end
 
   def test_unpermitted
@@ -27,8 +30,10 @@ class FormTest < ActionController::TestCase
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
-    assert_equal 'Drew', j['name']
+    assert_equal 'John', j['name']
     assert_nil j['age']
+    assert_nil j['pets'][0]['name']
+    assert_equal 'dog', j['pets'][0]['kind']
   end
 
   def test_auto_permit
@@ -36,8 +41,10 @@ class FormTest < ActionController::TestCase
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
-    assert_equal 'Drew', j['name']
-    assert_equal '22', j['age']
+    assert_equal 'John', j['name']
+    assert_equal '30', j['age']
+    assert_equal 'dog', j['pets'][0]['kind']
+    assert_equal 'Fluffy', j['pets'][0]['name']
   end
 
   def test_auto_permit_incorrect_signature

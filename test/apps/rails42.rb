@@ -55,7 +55,7 @@ class BasicController < ActionController::Base
   include Rails.application.routes.url_helpers
 
   def unpermitted
-    u = params.require(:user).permit(:name)
+    u = params.require(:user).permit(:name, pets: [:kind])
     render json: u
   end
 
