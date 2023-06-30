@@ -2,8 +2,13 @@
 
 require 'test_helper'
 
-class FormTest < Minitest::Test
+class FormTest < ActionController::TestCase
+  setup do
+    @controller = WelcomeController.new
+  end
+
   def test_true
-    assert true
+    post :update, user: { test: 1 }
+    assert_response :ok
   end
 end

@@ -1,5 +1,5 @@
 appraise "rails-4-2" do
-  gem "rails", "= 4.2.11.3"
+  gem "rails", "= 4.2.11.33"
   gem "sqlite3", "~> 1.4.2"
 end
 
