@@ -53,11 +53,9 @@ end
 
 class BasicController < ActionController::Base
   include Rails.application.routes.url_helpers
-  layout nil
-  self.view_paths = []
 
   def unpermitted
-    u = params.require(:user).permit(:allowed)
+    u = params.require(:user).permit(:name)
     render json: u
   end
 
