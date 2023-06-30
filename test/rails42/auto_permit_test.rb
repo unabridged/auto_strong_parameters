@@ -14,8 +14,8 @@ class FormTest < ActionController::TestCase
     }
   end
 
-  def sign(arr)
-    AutoStrongParameters.verifier.generate(arr)
+  def signature
+    AutoStrongParameters.verifier.generate(permitted_keys)
   end
 
   def permitted_keys
@@ -32,10 +32,7 @@ class FormTest < ActionController::TestCase
   end
 
   def test_auto_permit
-    signature = sign(permitted_keys)
-
-    post :auto_permit,
-      user: user_params.merge(_asp_message: signature)
+    post :auto_permit, user: user_params.merge(_asp_message: signature)
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
@@ -44,10 +41,7 @@ class FormTest < ActionController::TestCase
   end
 
   def test_auto_permit_incorrect_signature
-    signature = sign(permitted_keys)
-
-    post :auto_permit,
-      user: user_params.merge(_asp_message: 'abc123')
+    post :auto_permit, user: user_params.merge(_asp_message: 'abc123')
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
