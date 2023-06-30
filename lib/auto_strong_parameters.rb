@@ -1,6 +1,5 @@
 require 'rails'
+require 'auto_strong_parameters/railtie'
 
-module StrongParameters
-  module Auto
-  end
+module AutoStrongParameters
 end

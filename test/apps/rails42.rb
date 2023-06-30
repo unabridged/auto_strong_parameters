@@ -45,26 +45,25 @@ module Rails42
     config.middleware.delete "ActionDispatch::BestStandardsSupport"
     config.secret_key_base = '49837489qkuweoiuoqwehisuakshdjksadhaisdy78o34y138974xyqp9rmye8yrpiokeuioqwzyoiuxftoyqiuxrhm3iou1hrzmjk'
     routes.append do
-      get "/" => "welcome#index"
-      post "/" => "welcome#update"
+      post "auto_permit" => "basic#auto_permit"
+      post "unpermitted" => "basic#unpermitted"
     end
   end
 end
 
-class WelcomeController < ActionController::Base
+class BasicController < ActionController::Base
   include Rails.application.routes.url_helpers
-  layout 'application'
-  self.view_paths = [ActionView::FixtureResolver.new(
-    "layouts/application.html.erb" => '<%= yield %>',
-    "welcome/index.html.erb"=> 'Hello from index.html.erb',
-  )]
+  layout nil
+  self.view_paths = []
 
-  def index
+  def unpermitted
+    u = params.require(:user).permit(:allowed)
+    render json: u
   end
 
-  def update
-    params[:user].auto_permit!
-    head :ok
+  def auto_permit
+    u = params.require(:user).auto_permit!
+    render json: u
   end
 end
 
