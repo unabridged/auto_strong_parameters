@@ -2,7 +2,17 @@ require 'rails'
 require 'auto_strong_parameters/railtie'
 
 module AutoStrongParameters
+  # Rails' message_verifier exists with a stable API in all versions of Rails
+  # since 4.2.
   def self.verifier
-    Rails.application.message_verifier("auto_strong_parameters")
+    @verifier ||=
+      Rails.application.message_verifier("auto_strong_parameters")
+  end
+
+  # Provide your own custom verifier for AutoStrongParameters. Must respond to
+  # #generate which takes an object and returns a string and #verify which
+  # takes a string and returns an object.
+  def self.verifier=(custom_verifier)
+    @verifier = custom_verifier
   end
 end
