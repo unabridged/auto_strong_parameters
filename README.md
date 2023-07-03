@@ -77,6 +77,6 @@ Our gemspec dictates Rails 4.0+ support but we do not test it. It may work but i
 
 There are thousands of Rails apps on old versions of Rails maintained by small teams that are unable to perform version upgrades. This gem aims to help make working with Strong Parameters easier and more seamless - one less headache when considering whether and when to upgrade. This is one way we can help relieve the upgrade and maintenance burden for folks on old versions of Rails.
 
-Long-term support for non-officially-supported versions of Rails is offered by [Rails LTS](https://railslts.com). Since Rails LTS is the only way that you can get these old versions of Rails to work with current Ruby versions, this gem is tested against them rather than the final releases from [rails/rails](https://github.com/rails/rails). In order to successfully run all our tests, you may need a license to get a copy of Rails LTS 4.2.
+Long-term support for non-officially-supported versions of Rails is offered by [Rails LTS](https://railslts.com) (no official affiliation, just a happy customer). Since Rails LTS is the only way that you can get these old versions of Rails to work with current Ruby versions, this gem is tested against them rather than the final releases from [rails/rails](https://github.com/rails/rails). In order to successfully run all our tests, you may need a license to get a copy of Rails LTS 4.2.
 
 All that said, AutoStrongParameters should work fine with standard Rails 4.2 if you are running an older version of Ruby.
