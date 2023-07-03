@@ -25,12 +25,17 @@ class FormTest < ActionController::TestCase
     ['name', 'age', { 'pets' => ['name', 'kind'] }]
   end
 
-  def test_unpermitted
+  # Rails 4.2 does not have the keyword API for #process et al.
+  def process_args(args)
     if defined? Rails42
-      post :unpermitted, user: user_params
+      args
     else
-      post :unpermitted, params: { user: user_params }
+      { params: args }
     end
+  end
+
+  def test_unpermitted
+    post :unpermitted, **process_args(user: user_params)
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
@@ -41,11 +46,7 @@ class FormTest < ActionController::TestCase
   end
 
   def test_auto_permit
-    if defined? Rails42
-      post :auto_permit, user: user_params.merge(_asp_message: signature)
-    else
-      post :auto_permit, params: { user: user_params.merge(_asp_message: signature) }
-    end
+    post :auto_permit, **process_args(user: user_params.merge(_asp_message: signature))
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
@@ -56,11 +57,7 @@ class FormTest < ActionController::TestCase
   end
 
   def test_auto_permit_incorrect_signature
-    if defined? Rails42
-      post :auto_permit, user: user_params.merge(_asp_message: 'abc123')
-    else
-      post :auto_permit, params: { user: user_params.merge(_asp_message: 'abc123') }
-    end
+    post :auto_permit, **process_args(user: user_params.merge(_asp_message: 'abc123'))
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
