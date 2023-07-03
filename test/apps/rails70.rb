@@ -20,7 +20,7 @@ require 'rails/test_help'
 
 require 'auto_strong_parameters'
 
-module Rails42
+module Rails70
   class Application < Rails::Application
     config.root = File.expand_path("../../..", __FILE__)
     config.cache_classes = true
@@ -40,9 +40,8 @@ module Rails42
 
     config.active_support.test_order = :sorted
 
-    config.middleware.delete "Rack::Lock"
-    config.middleware.delete "ActionDispatch::Flash"
-    config.middleware.delete "ActionDispatch::BestStandardsSupport"
+    config.middleware.delete Rack::Lock
+    config.middleware.delete ActionDispatch::Flash
     config.secret_key_base = '49837489qkuweoiuoqwehisuakshdjksadhaisdy78o34y138974xyqp9rmye8yrpiokeuioqwzyoiuxftoyqiuxrhm3iou1hrzmjk'
     routes.append do
       post "auto_permit" => "basic#auto_permit"
@@ -51,20 +50,6 @@ module Rails42
   end
 end
 
-class BasicController < ActionController::Base
-  include Rails.application.routes.url_helpers
-
-  def auto_permit
-    u = params.require(:user).auto_permit!
-    render json: u
-  end
-
-  def unpermitted
-    u = params.require(:user).permit(:name, pets: [:kind])
-    render json: u
-  end
-end
-
 require_relative './basic_controller'
 
-Rails42::Application.initialize!
+Rails70::Application.initialize!

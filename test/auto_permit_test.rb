@@ -26,7 +26,11 @@ class FormTest < ActionController::TestCase
   end
 
   def test_unpermitted
-    post :unpermitted, user: user_params
+    if defined? Rails42
+      post :unpermitted, user: user_params
+    else
+      post :unpermitted, params: { user: user_params }
+    end
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
@@ -37,7 +41,11 @@ class FormTest < ActionController::TestCase
   end
 
   def test_auto_permit
-    post :auto_permit, user: user_params.merge(_asp_message: signature)
+    if defined? Rails42
+      post :auto_permit, user: user_params.merge(_asp_message: signature)
+    else
+      post :auto_permit, params: { user: user_params.merge(_asp_message: signature) }
+    end
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
@@ -48,7 +56,11 @@ class FormTest < ActionController::TestCase
   end
 
   def test_auto_permit_incorrect_signature
-    post :auto_permit, user: user_params.merge(_asp_message: 'abc123')
+    if defined? Rails42
+      post :auto_permit, user: user_params.merge(_asp_message: 'abc123')
+    else
+      post :auto_permit, params: { user: user_params.merge(_asp_message: 'abc123') }
+    end
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
