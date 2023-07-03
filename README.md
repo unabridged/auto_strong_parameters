@@ -33,7 +33,7 @@ After:
 
 
 # Controller - no enumeration required, your form dictates what is allowed
-user_params = params.require(:user).auto_permit
+user_params = params.require(:user).auto_permit!
 @user = User.create(user_params)
 ```
 
@@ -52,36 +52,32 @@ The previous model of including permitted attributes in the model was a limited 
 
 Strong Parameters moved permitted attribute assertions from the model to the controller. To this day, parameters are authorized in the controllers they are submitted to. This change was for the better because it meant that each controller could assert its own set of parameters.
 
-Strong Parameters still has the problem that multiple forms can submit to a single endpoint. This requires controller-side configuration and knowing where each submission is coming from so that the correct parameters are authorized.
+Strong Parameters still has the problem that multiple forms can submit to a single endpoint. This requires controller-side configuration and knowing where each submission is coming from so that the correct parameters are authorized. There is fundamentally always double entry of what parameters you want to save - once in the view, and once in the controller.
 
-This design suggests that we can go one step further. Parameters are literally setup when you write your form code. Each `f.text_field` or `f.fields_for` says that you want that parameter in the form and accepted by the server. The form itself is the documentation as to what parameters can be submitted. 
+This design suggests that we can go one step further. Parameters are literally setup when you write your form code in your view. Each `f.text_field` or `f.fields_for` says that you want that parameter in the form and accepted by the server. The form itself is the documentation as to what parameters can be submitted. 
 
 The natural solution is for each form to handle authorizing its own set of parameters.
 
 - It is safe due to signing of the auto-generated shape
 - It is seamless to integrate due to automatically permitting on any action that detects a shape submission
-- It allows graceful fallback to standard Strong Parameters
+- It allows graceful upgrade and fallback to standard Strong Parameters
 
 
 ## Compatibility
 
-- Ruby 2.7+ but should work fine with prior Rubies.
-- Rails 4.0+
+Official support is currently set for all supported Rails releases as well as stable releases maintained by Rails LTS. There is no separate branch for separate versions, it is a goal keep this gem compatible for the life of Strong Parameters (Rails 4.0 - present).
 
-### Why support Rails 4?
+- Ruby 2.7+, but should work fine with Ruby 2.0+
+- Rails 4.2, 5.2, 6.0+
 
-There are thousands of Rails apps on old versions of Rails maintained by small teams that are daunted by big upgrades. This gem aims to help make working with Strong Parameters easier and more seamless. One big way we can do that is help relieve the maintenance burden for folks on old versions of Rails.
+### Unofficial compatibility
 
+Our gemspec dictates Rails 4.0+ support but we do not test it. It may work but it is not officially supported. This is a "use at your own risk" allowance - you should seriously reconsider running Rails 4.0/4.1 and 5.0/5.1 because they do not receive security updates or attention from official sources or private companies at all.
 
+### Why support Rails 4+?
 
-# TODO list
+There are thousands of Rails apps on old versions of Rails maintained by small teams that are unable to perform version upgrades. This gem aims to help make working with Strong Parameters easier and more seamless - one less headache when considering whether and when to upgrade. This is one way we can help relieve the upgrade and maintenance burden for folks on old versions of Rails.
 
-- Add a hidden field with a string of all the fields used in the form builder
-- Add a hidden field with a signature, take value toJson, sign and encrypt it
-- Look at how cookies are decrypted to decrypt server-side
-- Patch ActionController::Parameters to have auto_permit and use the shape from the form
-- For upgrades, we can suggest / allow a setting to try to catch the exception that SP raises and try to call auto_permit and don't raise.
+Long-term support for non-officially-supported versions of Rails is offered by (Rails LTS)[https://railslts.com]. Since Rails LTS is the only way that you can get these old versions of Rails to work with current Ruby versions, this gem is tested against them rather than the final releases from (rails/rails)[https://github.com/rails/rails). In order to successfully run all our tests, you may need a license to get a copy of Rails LTS 4.2.
 
-
-# Future enhancements
-- Add option to enforce that selects or really any values are submitted are only within the choicies that were actually rendered in the form. This makes the most sense for foreign keys.
+All that said, AutoStrongParameters should work fine with standard Rails 4.2 if you are running an older version of Ruby.
