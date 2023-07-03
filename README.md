@@ -4,6 +4,10 @@ Auto Strong Parameters detects the fields included in a form and automatically p
 
 Rails 4.0 introduced Rails developers to the world of Strong Parameters. This gem is an extension to the model that Strong Parameters introduced, intended to reduce or eliminate the busy work that Strong Paramters introduced. As Giles Bowkett wrote, "tedious, repetitive work is for computers to do."
 
+- :white_check_mark: Seamless integration: replace `permit` calls with `auto_permit!`
+- :safety_vest: Safe from malicious tampering due to message signing
+- :trophy: Graceful upgrade and fallback to standard Strong Parameters
+- :bow: No more busy work enumerating permitted parameters twice
 
 ## How it works
 
@@ -57,11 +61,6 @@ Strong Parameters still has the problem that multiple forms can submit to a sing
 This design suggests that we can go one step further. Parameters are literally setup when you write your form code in your view. Each `f.text_field` or `f.fields_for` says that you want that parameter in the form and accepted by the server. The form itself is the documentation as to what parameters can be submitted. 
 
 The natural solution is for each form to handle authorizing its own set of parameters.
-
-- It is safe due to signing of the auto-generated shape
-- It is seamless to integrate due to automatically permitting on any action that detects a shape submission
-- It allows graceful upgrade and fallback to standard Strong Parameters
-
 
 ## Compatibility
 
