@@ -2,6 +2,7 @@ require "rails"
 
 [
   #'active_record',
+  'active_model',
   'action_controller',
   'action_view',
   #'action_mailer',
@@ -45,6 +46,7 @@ module Rails42
     config.middleware.delete "ActionDispatch::BestStandardsSupport"
     config.secret_key_base = '49837489qkuweoiuoqwehisuakshdjksadhaisdy78o34y138974xyqp9rmye8yrpiokeuioqwzyoiuxftoyqiuxrhm3iou1hrzmjk'
     routes.append do
+      get "new" => "basic#new"
       post "auto_permit" => "basic#auto_permit"
       post "unpermitted" => "basic#unpermitted"
     end
@@ -52,5 +54,6 @@ module Rails42
 end
 
 require_relative './basic_controller'
+require_relative './user'
 
 Rails42::Application.initialize!

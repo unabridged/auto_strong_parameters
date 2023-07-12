@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class FormTest < ActionController::TestCase
+class AutoPermitTest < ActionController::TestCase
   setup do
     @controller = BasicController.new
   end
