@@ -17,6 +17,9 @@ class BasicController < ActionController::Base
         <%= f.number_field :age %>
         <%= f.range_field :years_of_experience %>
         <%= f.password_field :password %>
+        <%= f.fields_for :pets, f.object.pets do |petf| %>
+          <%= petf.text_field :name %>
+        <% end %>
       <% end %>
     NEW_USER_FORM
   )]

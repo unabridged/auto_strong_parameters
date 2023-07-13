@@ -54,6 +54,6 @@ module Rails42
 end
 
 require_relative './basic_controller'
-require_relative './user'
+require_relative './models'
 
 Rails42::Application.initialize!

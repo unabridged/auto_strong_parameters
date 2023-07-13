@@ -15,7 +15,7 @@ class AutoFormParamsTest < ActionController::TestCase
     %w(
       name email description phone dob lunch_time confirmed_at birth_month
       birthday_week favorite_url age years_of_experience password
-    )
+    ) + [{"pets_attributes" => ['name']}]
   end
 
   def test_new
