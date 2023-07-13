@@ -1,6 +1,5 @@
 require 'auto_strong_parameters/auto_permit'
 require 'auto_strong_parameters/auto_form_params'
-require 'auto_strong_parameters/form_field_tracking'
 
 module AutoStrongParameters
   require 'rails/railtie'
@@ -20,7 +19,6 @@ module AutoStrongParameters
   class Railtie
     def self.apply_form_helpers_patch
       ActionView::Base.send(:include, AutoStrongParameters::AutoFormParams)
-      ActionView::Base.send(:include, AutoStrongParameters::FormFieldTracking)
     end
 
     def self.apply_auto_permit_patch
