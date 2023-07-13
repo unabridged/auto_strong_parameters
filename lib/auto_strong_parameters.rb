@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails'
 require 'auto_strong_parameters/railtie'
 
@@ -6,7 +8,7 @@ module AutoStrongParameters
   # since 4.2.
   def self.verifier
     @verifier ||=
-      Rails.application.message_verifier("auto_strong_parameters")
+      ActiveSupport::MessageVerifier.new("auto_strong_parameters", serializer: JSON)
   end
 
   # Provide your own custom verifier for AutoStrongParameters. Must respond to
