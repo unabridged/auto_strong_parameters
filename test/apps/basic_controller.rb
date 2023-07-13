@@ -4,8 +4,19 @@ class BasicController < ActionController::Base
   self.view_paths = [ActionView::FixtureResolver.new(
     "basic/new.html.erb" => <<~NEW_USER_FORM
       <%= form_for @user, url: "/auto_permit" do |f| %>
-        Name: <%= f.text_field :name %>
-        Email: <%= f.email_field :email %>
+        <%= f.text_field :name %>
+        <%= email_field :user, :email %>
+        <%= f.text_area :description %>
+        <%= f.telephone_field :phone %>
+        <%= f.date_field :dob %>
+        <%= f.time_field :lunch_time %>
+        <%= f.datetime_field :confirmed_at %>
+        <%= f.month_field :birth_month %>
+        <%= f.week_field :birthday_week %>
+        <%= f.url_field :favorite_url %>
+        <%= f.number_field :age %>
+        <%= f.range_field :years_of_experience %>
+        <%= f.password_field :password %>
       <% end %>
     NEW_USER_FORM
   )]
