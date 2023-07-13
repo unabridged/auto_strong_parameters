@@ -40,6 +40,8 @@ module AutoStrongParameters::AutoFormParams
   # appended to this form.
   def _asp_hidden_tag
     if _asp_fields.present?
+      puts "========= Adding tag =========="
+      puts _asp_fields.inspect
       name = AutoStrongParameters.asp_message_key
       signature = AutoStrongParameters.verifier.generate(_asp_fields)
       "<input type='hidden' name='#{name}' value='#{signature}' />".html_safe

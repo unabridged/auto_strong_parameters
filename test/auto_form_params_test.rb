@@ -21,6 +21,7 @@ class AutoFormParamsTest < ActionController::TestCase
   def test_new
     get :new
     assert_response :ok
+    puts response.body
 
     assert_select "form[id='new_user']"
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']" do
