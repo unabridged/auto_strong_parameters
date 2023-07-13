@@ -20,7 +20,7 @@ class AutoFormParamsTest < ActionController::TestCase
     assert_response :ok
 
     assert_select "form[id='new_user']"
-    assert_select "form[id='new_user'] input[name='_asp_params']" do
+    assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']" do
       assert_select "[value=?]", signature
     end
   end

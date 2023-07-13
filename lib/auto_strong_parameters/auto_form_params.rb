@@ -7,9 +7,6 @@ module AutoStrongParameters::AutoFormParams
     attr_reader :_asp_fields
   end
 
-  ASP_PREFIX = "<input type='hidden' name='_asp_params' value='"
-  ASP_SUFFIX = "' />"
-
   NAME_REGEX = /name=\"(.*?)\"/
 
   TRACKED_FIELDS = %w(
@@ -39,18 +36,25 @@ module AutoStrongParameters::AutoFormParams
     @_asp_fields << name.to_s
   end
 
+  # Generate a hidden input with the signed value of all params that were
+  # appended to this form.
   def _asp_hidden_tag
     if _asp_fields.present?
+      name = AutoStrongParameters.asp_message_key
       signature = AutoStrongParameters.verifier.generate(_asp_fields)
-      (ASP_PREFIX + signature + ASP_SUFFIX).html_safe
+      "<input type='hidden' name='#{name}' value='#{signature}' />".html_safe
     else
       ""
     end
   end
 
+  # This implementation is taken from Rails 7.0 but is largely the same as the
+  # version found in Rails 4.2. Since Rails doesn't give us a nice hook to add
+  # in our functionality, we do it by bringing in the full method and
+  # augmenting it here.
   def form_tag_with_body(html_options, content)
     output = form_tag_html(html_options)
-    output << content
+    output << content.to_s if content
     output << _asp_hidden_tag
     output.safe_concat("</form>")
   end

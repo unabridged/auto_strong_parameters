@@ -17,4 +17,12 @@ module AutoStrongParameters
   def self.verifier=(custom_verifier)
     @verifier = custom_verifier
   end
+
+  def self.asp_message_key
+    @asp_message_key ||= :"_asp_params"
+  end
+
+  def self.asp_message_key=(val)
+    @asp_message_key = val
+  end
 end

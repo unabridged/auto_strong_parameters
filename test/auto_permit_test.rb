@@ -21,6 +21,10 @@ class AutoPermitTest < ActionController::TestCase
     AutoStrongParameters.verifier.generate(permitted_keys)
   end
 
+  def message_key
+    AutoStrongParameters.asp_message_key
+  end
+
   def permitted_keys
     ['name', 'age', { 'pets' => ['name', 'kind'] }]
   end
@@ -46,7 +50,7 @@ class AutoPermitTest < ActionController::TestCase
   end
 
   def test_auto_permit
-    post :auto_permit, **process_args(user: user_params.merge(_asp_message: signature))
+    post :auto_permit, **process_args(user: user_params.merge(message_key => signature))
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
@@ -57,7 +61,7 @@ class AutoPermitTest < ActionController::TestCase
   end
 
   def test_auto_permit_incorrect_signature
-    post :auto_permit, **process_args(user: user_params.merge(_asp_message: 'abc123'))
+    post :auto_permit, **process_args(user: user_params.merge(message_key => 'abc123'))
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
