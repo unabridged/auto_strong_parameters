@@ -17,7 +17,10 @@ class BasicController < ActionController::Base
         <%= f.number_field :age %>
         <%= f.range_field :years_of_experience %>
         <%= f.password_field :password %>
-        <%= f.fields_for :pets, f.object.pets do |petf| %>
+        <%= f.fields_for :parents do |parf| %>
+          <%= parf.text_field :name %>
+        <% end %>
+        <%= f.fields_for :pet do |petf| %>
           <%= petf.text_field :name %>
         <% end %>
       <% end %>

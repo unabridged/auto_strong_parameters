@@ -19,10 +19,23 @@ module AutoStrongParameters::AutoFormParams
     module_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{name}(*args)
         super.tap do
-          _asp_track_field(args[1])
+          _asp_track_field(args[1].to_s)
         end
       end
     RUBY_EVAL
+  end
+
+  def fields_for(record_name, record_object, opts = {}, &block)
+    @ff ||= {}
+    @ff[record_name] ||= []
+    @ff_cur = record_name
+
+    super.tap do |tags|
+      @ff_cur = nil
+      re = /\[(.*?)\]/
+      key = record_name.match(re)[1]
+      _asp_track_field({key => @ff[record_name]})
+    end
   end
 
   def radio_button(*)
@@ -31,17 +44,23 @@ module AutoStrongParameters::AutoFormParams
 
   private
 
-  def _asp_track_field(name)
-    @_asp_fields ||= []
-    @_asp_fields << name.to_s
+  def _asp_track_field(field)
+    # While inside a fields_for, we have to track fields nested under their
+    # fields_for key.
+    if @ff_cur
+      @ff[@ff_cur] << field
+    else
+      @_asp_fields ||= []
+      @_asp_fields << field
+    end
   end
 
   # Generate a hidden input with the signed value of all params that were
   # appended to this form.
   def _asp_hidden_tag
     if _asp_fields.present?
-      puts "========= Adding tag =========="
-      puts _asp_fields.inspect
+      # puts "========= Adding tag =========="
+      # puts _asp_fields.inspect
       name = AutoStrongParameters.asp_message_key
       signature = AutoStrongParameters.verifier.generate(_asp_fields)
       "<input type='hidden' name='#{name}' value='#{signature}' />".html_safe

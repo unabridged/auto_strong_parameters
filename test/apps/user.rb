@@ -5,11 +5,19 @@ class User
     :confirmed_at, :birth_month, :birthday_week, :favorite_url, :age,
     :years_of_experience, :password
 
-  def pets
-    @pets ||= [Pet.new]
+  def parents
+    @parents ||= [Parent.new]
   end
 
-  def pets_attributes=(val)
-    @pets = Array.wrap(val)
+  def parents_attributes=(val)
+    @parents = Array.wrap(val)
+  end
+
+  def pet
+    @pet ||= Pet.new
+  end
+
+  def pet_attributes=(val)
+    @pet = val
   end
 end

@@ -12,16 +12,13 @@ class AutoFormParamsTest < ActionController::TestCase
   end
 
   def permitted_keys
-    %w(
-      name email description phone dob lunch_time confirmed_at birth_month
-      birthday_week favorite_url age years_of_experience password
-    ) + [{"pets_attributes" => ['name']}]
+    ["name", "email", "description", "phone", "dob", "lunch_time", "confirmed_at", "birth_month", "birthday_week", "favorite_url", "age", "years_of_experience", "password", {"parents_attributes"=>["name"]}, {"pet_attributes"=>["name"]}]
   end
 
   def test_new
     get :new
     assert_response :ok
-    puts response.body
+    #puts response.body
 
     assert_select "form[id='new_user']"
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']" do
