@@ -2,6 +2,7 @@ require "rails"
 
 [
   #'active_record',
+  'active_model',
   'action_controller',
   'action_view',
   #'action_mailer',
@@ -19,6 +20,8 @@ require 'action_view/testing/resolvers'
 require 'rails/test_help'
 
 require 'auto_strong_parameters'
+
+require_relative './test_app'
 
 module Rails60
   class Application < Rails::Application
@@ -43,14 +46,12 @@ module Rails60
     config.middleware.delete "Rack::Lock"
     config.middleware.delete "ActionDispatch::Flash"
     config.middleware.delete "ActionDispatch::BestStandardsSupport"
-    config.secret_key_base = '49837489qkuweoiuoqwehisuakshdjksadhaisdy78o34y138974xyqp9rmye8yrpiokeuioqwzyoiuxftoyqiuxrhm3iou1hrzmjk'
-    routes.append do
-      post "auto_permit" => "basic#auto_permit"
-      post "unpermitted" => "basic#unpermitted"
-    end
+    config.secret_key_base = TestApp.secret_key_base
+    routes.append(&TestApp.routes)
   end
 end
 
+require_relative './models'
 require_relative './basic_controller'
 
 Rails60::Application.initialize!

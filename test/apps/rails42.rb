@@ -21,6 +21,8 @@ require 'rails/test_help'
 
 require 'auto_strong_parameters'
 
+require_relative './test_app'
+
 module Rails42
   class Application < Rails::Application
     config.root = File.expand_path("../../..", __FILE__)
@@ -44,16 +46,12 @@ module Rails42
     config.middleware.delete "Rack::Lock"
     config.middleware.delete "ActionDispatch::Flash"
     config.middleware.delete "ActionDispatch::BestStandardsSupport"
-    config.secret_key_base = '49837489qkuweoiuoqwehisuakshdjksadhaisdy78o34y138974xyqp9rmye8yrpiokeuioqwzyoiuxftoyqiuxrhm3iou1hrzmjk'
-    routes.append do
-      get "new" => "basic#new"
-      post "auto_permit" => "basic#auto_permit"
-      post "unpermitted" => "basic#unpermitted"
-    end
+    config.secret_key_base = TestApp.secret_key_base
+    routes.append(&TestApp.routes)
   end
 end
 
-require_relative './basic_controller'
 require_relative './models'
+require_relative './basic_controller'
 
 Rails42::Application.initialize!

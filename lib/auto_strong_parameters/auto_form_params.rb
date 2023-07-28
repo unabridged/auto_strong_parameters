@@ -47,7 +47,7 @@ module AutoStrongParameters::AutoFormParams
   def _asp_track_field(field)
     # While inside a fields_for, we have to track fields nested under their
     # fields_for key.
-    if @ff_cur
+    if defined?(@ff_cur) && @ff_cur
       @ff[@ff_cur] << field
     else
       @_asp_fields ||= []
