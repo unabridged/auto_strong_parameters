@@ -18,23 +18,26 @@ module AutoStrongParameters::AutoFormParams
   TRACKED_FIELDS.each do |name|
     module_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
       def #{name}(*args)
-        super.tap do
-          _asp_track_field(args[1].to_s)
+        super.tap do |res|
+          _asp_track_field(res)
         end
       end
     RUBY_EVAL
   end
 
   def fields_for(record_name, record_object, opts = {}, &block)
-    @ff ||= {}
-    @ff[record_name] ||= []
-    @ff_cur = record_name
+    # @ff ||= {}
+    # @ff[record_name] ||= []
+    # @ff_cur = record_name
+    #@things ||= []
+    #@things << record_name
+    #_asp_track_field(record_name)
 
     super.tap do |tags|
-      @ff_cur = nil
-      re = /\[(.*?)\]/
-      key = record_name.match(re)[1]
-      _asp_track_field({key => @ff[record_name]})
+      # @ff_cur = nil
+      # re = /\[(.*?)\]/
+      # key = record_name.match(re)[1]
+      # _asp_track_field({key => @ff[record_name]})
     end
   end
 
@@ -47,12 +50,15 @@ module AutoStrongParameters::AutoFormParams
   def _asp_track_field(field)
     # While inside a fields_for, we have to track fields nested under their
     # fields_for key.
-    if defined?(@ff_cur) && @ff_cur
-      @ff[@ff_cur] << field
-    else
-      @_asp_fields ||= []
-      @_asp_fields << field
-    end
+    # if defined?(@ff_cur) && @ff_cur
+    #   @ff[@ff_cur] << field
+    # else
+    #   @_asp_fields ||= []
+    #   @_asp_fields << field
+    # end
+
+    @_asp_fields ||= []
+    @_asp_fields << field.match(/\sname=\"(.+?)\"/)[1].gsub(/\[\d+\]/, '[]')
   end
 
   # Generate a hidden input with the signed value of all params that were
@@ -62,7 +68,10 @@ module AutoStrongParameters::AutoFormParams
       # puts "========= Adding tag =========="
       # puts _asp_fields.inspect
       name = AutoStrongParameters.asp_message_key
-      signature = AutoStrongParameters.verifier.generate(_asp_fields)
+      to_sign = asp_fields_to_keys
+      binding.pry
+      signature = AutoStrongParameters.verifier.generate(to_sign)
+
       "<input type='hidden' name='#{name}' value='#{signature}' />".html_safe
     else
       ""
@@ -78,5 +87,9 @@ module AutoStrongParameters::AutoFormParams
     output << content.to_s if content
     output << _asp_hidden_tag
     output.safe_concat("</form>")
+  end
+
+  def asp_fields_to_keys
+    Rack::Utils.parse_nested_query(_asp_fields.join("=&") + "=")
   end
 end
