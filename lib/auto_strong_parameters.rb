@@ -25,4 +25,26 @@ module AutoStrongParameters
   def self.asp_message_key=(val)
     @asp_message_key = val
   end
+
+  def self.to_strong_params_shape(obj)
+    res = []
+    case obj
+    when Hash
+      obj.each do |k, v|
+        case v
+        when Hash
+          res << { k.to_s => to_strong_params_shape(v) }
+        when Array
+          res << k.to_s
+        else
+          res << k.to_s
+        end
+      end
+      res
+    when Array
+      res
+    else
+      nil
+    end
+  end
 end
