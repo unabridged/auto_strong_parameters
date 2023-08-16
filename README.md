@@ -37,7 +37,7 @@ After:
 
 
 # Controller - no enumeration required, your form dictates what is allowed
-user_params = params.require(:user).auto_permit!
+user_params = params.auto_permit!(:user)
 @user = User.create(user_params)
 ```
 

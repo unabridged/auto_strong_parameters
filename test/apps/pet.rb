@@ -1,5 +1,5 @@
 class Pet
   include ActiveModel::Model
 
-  attr_accessor :name
+  attr_accessor :nickname, :age
 end

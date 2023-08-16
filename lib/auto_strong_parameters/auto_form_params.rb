@@ -7,7 +7,8 @@ module AutoStrongParameters::AutoFormParams
     attr_reader :_asp_fields
   end
 
-  NAME_REGEX = /name=\"(.*?)\"/
+  ASP_NAME_REGEX = /\sname=\"(.+?)\"/
+  ASP_DIGIT_REGEX = /\[\d+\]/
 
   TRACKED_FIELDS = %w(
     search_field telephone_field date_field time_field datetime_field
@@ -25,22 +26,7 @@ module AutoStrongParameters::AutoFormParams
     RUBY_EVAL
   end
 
-  def fields_for(record_name, record_object, opts = {}, &block)
-    # @ff ||= {}
-    # @ff[record_name] ||= []
-    # @ff_cur = record_name
-    #@things ||= []
-    #@things << record_name
-    #_asp_track_field(record_name)
-
-    super.tap do |tags|
-      # @ff_cur = nil
-      # re = /\[(.*?)\]/
-      # key = record_name.match(re)[1]
-      # _asp_track_field({key => @ff[record_name]})
-    end
-  end
-
+  # TODO
   def radio_button(*)
     super
   end
@@ -48,28 +34,18 @@ module AutoStrongParameters::AutoFormParams
   private
 
   def _asp_track_field(field)
-    # While inside a fields_for, we have to track fields nested under their
-    # fields_for key.
-    # if defined?(@ff_cur) && @ff_cur
-    #   @ff[@ff_cur] << field
-    # else
-    #   @_asp_fields ||= []
-    #   @_asp_fields << field
-    # end
-
     @_asp_fields ||= []
-    @_asp_fields << field.match(/\sname=\"(.+?)\"/)[1].gsub(/\[\d+\]/, '[]')
+    @_asp_fields << field.match(ASP_NAME_REGEX)[1].gsub(ASP_DIGIT_REGEX, '[]')
   end
 
-  # Generate a hidden input with the signed value of all params that were
-  # appended to this form.
+  # Generate a hidden input with the signed value of the params shape for this
+  # form. Append to the form.
   def _asp_hidden_tag
     if _asp_fields.present?
       # puts "========= Adding tag =========="
       # puts _asp_fields.inspect
       name = AutoStrongParameters.asp_message_key
-      to_sign = asp_fields_to_keys
-      binding.pry
+      to_sign = asp_fields_to_shape
       signature = AutoStrongParameters.verifier.generate(to_sign)
 
       "<input type='hidden' name='#{name}' value='#{signature}' />".html_safe
@@ -89,7 +65,12 @@ module AutoStrongParameters::AutoFormParams
     output.safe_concat("</form>")
   end
 
-  def asp_fields_to_keys
-    Rack::Utils.parse_nested_query(_asp_fields.join("=&") + "=")
+  # Concatenate all form element "name" values into a valid query string, parse
+  # it with Rack, and then convert to a Strong Parameters "shape" to be signed
+  # and sent to the server.
+  def asp_fields_to_shape
+    AutoStrongParameters.to_strong_params_shape(
+      Rack::Utils.parse_nested_query(_asp_fields.join("=&") + "=")
+    )
   end
 end

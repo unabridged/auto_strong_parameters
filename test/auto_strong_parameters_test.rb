@@ -8,9 +8,9 @@ class AutoStrongParametersTest < Minitest::Test
   end
 
   def test_to_strong_params_shape
-    assert_equal ["name"], to_strong_params_shape({name: "Steve"})
-    assert_equal ["name", "age"], to_strong_params_shape({name: "Steve", age: 5})
-    assert_equal ["name", {"pet" => ["name"]}], to_strong_params_shape({name: "Steve", pet: { name: "Fluffy" }})
-    assert_equal ["name", {"pet" => ["name"]}], to_strong_params_shape({name: "Steve", pet: { name: "Fluffy" }})
+    assert_equal ["name"], to_strong_params_shape({"name" => "Steve"})
+    assert_equal ["name", "age"], to_strong_params_shape({"name" => "Steve", age: 5})
+    assert_equal ["name", {"pet" => ["name"]}], to_strong_params_shape({"name" => "Steve", "pet" => { "name" => "Fluffy" }})
+    assert_equal ["name", {"pet" => ["name"]}], to_strong_params_shape({"name" => "Steve", "pet" => { "name" => "Fluffy" }})
   end
 end

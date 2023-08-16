@@ -2,8 +2,9 @@
 
 module AutoStrongParameters
   module AutoPermit
-    def auto_permit!
-      permit(asp_auto_permitted_params)
+    def auto_permit!(key)
+      v = asp_auto_permitted_params
+      require(key).permit(asp_auto_permitted_params[key.to_s])
     end
 
     def asp_auto_permitted_params

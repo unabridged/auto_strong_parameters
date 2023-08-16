@@ -27,22 +27,51 @@ module AutoStrongParameters
   end
 
   def self.to_strong_params_shape(obj)
-    res = []
+    items = Set.new
+    hsh = {}
+
     case obj
     when Hash
-      obj.each do |k, v|
-        case v
+      obj.each do |key, val|
+        case val
         when Hash
-          res << { k.to_s => to_strong_params_shape(v) }
+          hsh[key] ||= {}
+          hsh[key] = to_strong_params_shape(val)
         when Array
-          res << k.to_s
+          hsh[key] ||= []
+          hsh[key] << to_strong_params_shape(val)
         else
-          res << k.to_s
+          items << key.to_s
         end
       end
-      res
+      if hsh.empty?
+        items.flatten.to_a
+      elsif items.empty?
+        hsh
+      else
+        hsh.transform_values!(&:flatten)
+        [*items.flatten, hsh].flatten
+      end
+
     when Array
-      res
+      obj.each do |item|
+        case item
+        when Hash
+          items << to_strong_params_shape(item)
+        when Array
+          items << to_strong_params_shape(item)
+        else
+          # nothing
+        end
+      end
+
+      if hsh.empty?
+        items.flatten.to_a
+      else
+        hsh.transform_values!(&:flatten)
+        [*items.flatten, hsh]
+      end
+
     else
       nil
     end

@@ -19,9 +19,11 @@ class BasicController < ActionController::Base
         <%= f.password_field :password %>
         <%= f.fields_for :parents do |parf| %>
           <%= parf.text_field :name %>
+          <%= parf.text_area :job %>
         <% end %>
         <%= f.fields_for :pet do |petf| %>
-          <%= petf.text_field :name %>
+          <%= petf.text_field :nickname %>
+          <%= petf.number_field :age %>
         <% end %>
       <% end %>
     NEW_USER_FORM
@@ -32,7 +34,7 @@ class BasicController < ActionController::Base
   end
 
   def auto_permit
-    u = params.require(:user).auto_permit!
+    u = params.auto_permit!(:user)
     render json: u
   end
 

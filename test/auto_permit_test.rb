@@ -26,7 +26,7 @@ class AutoPermitTest < ActionController::TestCase
   end
 
   def permitted_keys
-    ['name', 'age', { 'pets' => ['name', 'kind'] }]
+    { "user" => ['name', 'age', { 'pets' => ['name', 'kind'] }] }
   end
 
   # Rails 4.2 does not have the keyword API for #process et al.
