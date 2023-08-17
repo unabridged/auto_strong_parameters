@@ -17,6 +17,8 @@ class BasicController < ActionController::Base
         <%= f.number_field :age %>
         <%= f.range_field :years_of_experience %>
         <%= f.password_field :password %>
+        <%= f.radio_button :preferred_phone_os, :iphone %>
+        <%= f.radio_button :preferred_phone_os, :android %>
         <%= f.fields_for :parents do |parf| %>
           <%= parf.text_field :name %>
           <%= parf.text_area :job %>

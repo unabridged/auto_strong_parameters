@@ -27,6 +27,7 @@ class AutoFormParamsTest < ActionController::TestCase
         "age",
         "years_of_experience",
         "password",
+        "preferred_phone_os",
         {
           "parents_attributes"=>[
             "name",

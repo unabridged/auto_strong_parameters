@@ -13,7 +13,7 @@ module AutoStrongParameters::AutoFormParams
   TRACKED_FIELDS = %w(
     search_field telephone_field date_field time_field datetime_field
     month_field week_field url_field email_field number_field range_field
-    file_field password_field text_area text_field
+    file_field password_field text_area text_field radio_button
   )
 
   TRACKED_FIELDS.each do |name|
@@ -24,11 +24,6 @@ module AutoStrongParameters::AutoFormParams
         end
       end
     RUBY_EVAL
-  end
-
-  # TODO
-  def radio_button(*)
-    super
   end
 
   private
