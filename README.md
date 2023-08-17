@@ -9,6 +9,16 @@ Rails 4.0 introduced Rails developers to the world of Strong Parameters. This ge
 - :trophy: Graceful upgrade and fallback to standard Strong Parameters
 - :bow: No more busy work enumerating permitted parameters twice
 
+## How it works (TL;DR)
+
+```ruby
+# Replace this...
+user_params = params.require(:user).permit(:first_name, :email)
+
+# ...with this
+user_params = params.auto_permit!(:user)
+```
+
 ## How it works
 
 Before:
