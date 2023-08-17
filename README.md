@@ -81,6 +81,10 @@ Official support is currently set for all supported Rails releases as well as st
 - Ruby 2.7+, but should work fine with Ruby 2.0+
 - Rails 4.2, 5.2, 6.0+
 
+### Form Builders
+
+Auto Strong Parameters currently only supports the built-in Rails form builder class. If you use a different form builder and would like to see it supported, open a ticket, or better yet, write it and contribute back!
+
 ### Unofficial compatibility
 
 Our gemspec dictates Rails 4.0+ support but we do not test versions 4.0, 4.1, 5.0, or 5.1. It may work on those versions but it is not officially supported. This is a "use at your own risk" allowance - you should seriously reconsider running Rails 4.0/4.1 and 5.0/5.1 because they do not receive security updates or attention from official sources or private companies at all.
@@ -92,3 +96,8 @@ There are thousands of Rails apps on old versions of Rails maintained by small t
 Long-term support for non-officially-supported versions of Rails is offered by [Rails LTS](https://railslts.com) (no official affiliation, just a happy customer). Since Rails LTS is the only way that you can get these old versions of Rails to work with current Ruby versions, this gem is tested against them rather than the final releases from [rails/rails](https://github.com/rails/rails). In order to successfully run all our tests, you may need a license to get a copy of Rails LTS 4.2.
 
 All that said, AutoStrongParameters should work fine with standard Rails 4.2 even if you are running an EOL version of Ruby.
+
+
+## Contributing
+
+Contributions are welcome! If you use it and it doesn't work for you, please open an issue! If it DOES work for you, also let me know!
