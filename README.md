@@ -4,7 +4,7 @@ Auto Strong Parameters detects the fields included in a form and automatically p
 
 Rails 4.0 introduced Rails developers to the world of Strong Parameters. This gem is an extension to the model that Strong Parameters introduced, intended to reduce or eliminate the busy work that Strong Paramters introduced. As Giles Bowkett wrote, "tedious, repetitive work is for computers to do."
 
-- :white_check_mark: Seamless integration: replace `permit` calls with `auto_permit!`
+- :white_check_mark: Seamless integration: replace `require(key).permit` calls with `auto_permit!(key)`
 - :safety_vest: Safe from malicious tampering due to message signing
 - :trophy: Graceful upgrade and fallback to standard Strong Parameters
 - :bow: No more busy work enumerating permitted parameters twice
@@ -23,6 +23,7 @@ Before:
 
 # Controller
 user_params = params.require(:user).permit(:first_name, :email)
+# => { first_name: "Dave", email: "dave@example.com }
 @user = User.create(user_params)
 ```
 
@@ -38,6 +39,7 @@ After:
 
 # Controller - no enumeration required, your form dictates what is allowed
 user_params = params.auto_permit!(:user)
+# => { first_name: "Dave", email: "dave@example.com }
 @user = User.create(user_params)
 ```
 
