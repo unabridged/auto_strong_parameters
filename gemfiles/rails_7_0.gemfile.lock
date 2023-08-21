@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    auto_strong_parameters (0.0.1)
+    auto_strong_parameters (0.0.2)
       rails (>= 4.0)
 
 GEM
