@@ -3,7 +3,7 @@ class User
 
   attr_accessor :name, :email, :description, :phone, :dob, :lunch_time,
     :confirmed_at, :birth_month, :birthday_week, :favorite_url, :age,
-    :years_of_experience, :password, :preferred_phone_os
+    :years_of_experience, :password, :preferred_phone_os, :location
 
   def parents
     @parents ||= [Parent.new]

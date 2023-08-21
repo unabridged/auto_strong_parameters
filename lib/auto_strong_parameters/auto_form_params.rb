@@ -13,7 +13,8 @@ module AutoStrongParameters::AutoFormParams
   TRACKED_FIELDS = %w(
     search_field telephone_field date_field time_field datetime_field
     month_field week_field url_field email_field number_field range_field
-    file_field password_field text_area text_field radio_button
+    file_field password_field text_area text_field radio_button phone_field
+    select
   )
 
   TRACKED_FIELDS.each do |name|
