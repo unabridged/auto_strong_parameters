@@ -50,7 +50,7 @@ class AutoPermitTest < ActionController::TestCase
   end
 
   def test_auto_permit
-    post :auto_permit, **process_args(user: user_params.merge(message_key => signature))
+    post :auto_permit, **process_args(user: user_params, message_key => signature)
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
@@ -61,7 +61,7 @@ class AutoPermitTest < ActionController::TestCase
   end
 
   def test_auto_permit_incorrect_signature
-    post :auto_permit, **process_args(user: user_params.merge(message_key => 'abc123'))
+    post :auto_permit, **process_args(user: user_params, message_key => 'abc123')
     assert_response :ok
     j = ActiveSupport::JSON.decode(response.body)
 
