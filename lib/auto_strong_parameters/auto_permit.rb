@@ -9,7 +9,7 @@ module AutoStrongParameters
     end
 
     def asp_auto_permitted_params(key)
-      if sig = self[key][AutoStrongParameters.asp_message_key]
+      if sig = self[AutoStrongParameters.asp_message_key]
         AutoStrongParameters.verifier.verify(sig) rescue {}
       else
         {}
