@@ -49,7 +49,7 @@ class AutoStrongParametersTest < Minitest::Test
         "id", "first_name", "last_name", "phone"
       ],
     }
-    actual = AutoStrongParameters.to_strong_params_shape(params)
+    actual = to_strong_params_shape(params)
     assert_equal exp["user"], actual["user"]
     assert_equal exp["address"], actual["address"]
     assert_equal exp["emergency_contact"], actual["emergency_contact"]
