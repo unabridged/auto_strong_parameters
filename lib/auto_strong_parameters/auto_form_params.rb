@@ -11,10 +11,36 @@ module AutoStrongParameters::AutoFormParams
   ASP_DIGIT_REGEX = /\[\d+\]/
 
   TRACKED_FIELDS = %w(
-    search_field telephone_field date_field time_field datetime_field
-    month_field week_field url_field email_field number_field range_field
-    file_field password_field text_area text_field radio_button phone_field
-    select collection_select trix_editor
+    check_box
+    collection_check_boxes
+    collection_radio_buttons
+    collection_select
+    color_field
+    date_field
+    datetime_field
+    datetime_local_field
+    email_field
+    file_field
+    grouped_collection_select
+    grouped_collection_select
+    hidden_field
+    month_field
+    number_field
+    password_field
+    phone_field
+    radio_button
+    range_field
+    rich_text_area
+    search_field
+    select
+    telephone_field
+    text_area
+    text_field
+    time_field
+    time_zone_select
+    trix_editor
+    url_field
+    week_field
   )
 
   TRACKED_FIELDS.each do |name|
