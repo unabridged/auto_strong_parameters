@@ -14,7 +14,7 @@ module AutoStrongParameters::AutoFormParams
     search_field telephone_field date_field time_field datetime_field
     month_field week_field url_field email_field number_field range_field
     file_field password_field text_area text_field radio_button phone_field
-    select
+    select collection_select trix_editor
   )
 
   TRACKED_FIELDS.each do |name|

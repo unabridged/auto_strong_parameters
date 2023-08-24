@@ -71,7 +71,7 @@ module AutoStrongParameters
     end
   end
 
-  # Rails' message_verifier exists with a stable API in all versions of Rails
+  # Rails' MessageVerifier exists with a stable API in all versions of Rails
   # since 4.2.
   def self.verifier
     @verifier ||= ActiveSupport::MessageVerifier.new(secret, serializer: JSON)
