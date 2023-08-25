@@ -83,7 +83,9 @@ module AutoStrongParameters::AutoFormParams
   def form_tag_with_body(html_options, content)
     output = form_tag_html(html_options)
     output << content.to_s if content
-    output << _asp_hidden_tag
+    if auto_strong_parameters_enabled?(html_options)
+      output << _asp_hidden_tag
+    end
     output.safe_concat("</form>")
   end
 
@@ -94,5 +96,10 @@ module AutoStrongParameters::AutoFormParams
     AutoStrongParameters.to_strong_params_shape(
       Rack::Utils.parse_nested_query(_asp_fields.join("=&") + "=")
     )
+  end
+
+  def auto_strong_parameters_enabled?(opts)
+    AutoStrongParameters.enabled? &&
+      !opts["data-asp-disabled"]
   end
 end

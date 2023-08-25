@@ -20,6 +20,23 @@ module AutoStrongParameters
     @secret ||= Rails.application.config.secret_key_base
   end
 
+  def self.enabled
+    @enabled = true if !defined?(@enabled)
+    @enabled
+  end
+
+  def self.enabled?
+    !!enabled
+  end
+
+  def self.disabled?
+    enabled
+  end
+
+  def self.enabled=(value)
+    @enabled = value
+  end
+
   def self.to_strong_params_shape(obj)
     items = Set.new
     hsh = {}
