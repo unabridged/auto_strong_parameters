@@ -66,8 +66,6 @@ module AutoStrongParameters::AutoFormParams
   # form. Append to the form.
   def _asp_hidden_tag
     if _asp_fields.present?
-      # puts "========= Adding tag =========="
-      # puts _asp_fields.inspect
       name = AutoStrongParameters.asp_message_key
       to_sign = asp_fields_to_shape
       signature = AutoStrongParameters.verifier.generate(to_sign)
