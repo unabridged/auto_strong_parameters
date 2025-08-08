@@ -100,4 +100,12 @@ module AutoStrongParameters
   def self.verifier=(custom_verifier)
     @verifier = custom_verifier
   end
+
+  def self.logger
+    @logger ||= Rails.logger
+  end
+
+  def self.logger=(custom_logger)
+    @logger = custom_logger
+  end
 end
