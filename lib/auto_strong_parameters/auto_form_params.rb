@@ -22,7 +22,6 @@ module AutoStrongParameters::AutoFormParams
     email_field
     file_field
     grouped_collection_select
-    grouped_collection_select
     hidden_field
     month_field
     number_field
