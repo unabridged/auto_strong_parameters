@@ -59,6 +59,25 @@ class AutoFormParamsTest < ActionController::TestCase
     end
   end
 
+  def test_form_with_malformed_field_does_not_crash
+    # This test demonstrates the bug where _asp_track_field fails when regex doesn't match
+    BasicController.view_paths = [ActionView::FixtureResolver.new(
+      "basic/new.html.erb" => <<~MALFORMED_FORM
+        <%= form_for @user, url: "/auto_permit" do |f| %>
+          <%= f.text_field :name, name: nil %>
+          <%= f.email_field :email %>
+        <% end %>
+      MALFORMED_FORM
+    )]
+
+    get :new
+    assert_response :ok
+
+    # Form should still render and include ASP hidden tag
+    assert_select "form[id='new_user']"
+    assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']"
+  end
+
   def test_disabled_form_does_not_include_asp_hidden_tag
     BasicController.view_paths = [ActionView::FixtureResolver.new(
       "basic/new.html.erb" => <<~DISABLED_FORM

@@ -56,7 +56,10 @@ module AutoStrongParameters::AutoFormParams
 
   def _asp_track_field(field)
     @_asp_fields ||= []
-    @_asp_fields << field.match(ASP_NAME_REGEX)[1].gsub(ASP_DIGIT_REGEX, '[]')
+
+    if match_data = field.match(ASP_NAME_REGEX)
+      @_asp_fields << match_data[1].gsub(ASP_DIGIT_REGEX, '[]')
+    end
   end
 
   # Generate a hidden input with the signed value of the params shape for this
