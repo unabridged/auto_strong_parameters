@@ -5,7 +5,7 @@ require 'auto_strong_parameters/version'
 Gem::Specification.new do |s|
   s.name        = "auto_strong_parameters"
   s.version     = AutoStrongParameters::VERSION
-  s.summary     = "Automatic require and permit of Strong Paramters for your Rails forms."
+  s.summary     = "Automatic require and permit of Strong Parameters for your Rails forms."
   s.authors     = ["Drew Ulmer"]
   s.email       = "drew@unabridgedsoftware.com"
   s.homepage    = "https://github.com/unabridged/auto_strong_parameters"
