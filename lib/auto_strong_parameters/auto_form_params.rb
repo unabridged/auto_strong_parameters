@@ -101,7 +101,9 @@ module AutoStrongParameters::AutoFormParams
   def auto_strong_parameters_enabled?(opts)
     return false if AutoStrongParameters.disabled?
 
-    inline_val = opts.dig("data", :asp_disabled) || opts["data-asp-disabled"]
-    inline_val.blank? || inline_val.to_s.in?(['true', 'enabled'])
+    # Check both hash key and string key formats
+    inline_val = opts.dig("data", :asp_disabled) || opts["data-asp-disabled"] || opts[:data_asp_disabled]
+
+    inline_val.blank? || inline_val.to_s.in?(['enabled', 'false'])
   end
 end
