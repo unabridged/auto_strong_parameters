@@ -30,7 +30,7 @@ module AutoStrongParameters
   end
 
   def self.disabled?
-    enabled
+    !enabled
   end
 
   def self.enabled=(value)
