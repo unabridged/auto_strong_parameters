@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails'
-require 'auto_strong_parameters/railtie'
 
 module AutoStrongParameters
   def self.asp_message_key
@@ -109,3 +108,5 @@ module AutoStrongParameters
     @logger = custom_logger
   end
 end
+
+require 'auto_strong_parameters/railtie'
