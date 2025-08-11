@@ -231,7 +231,7 @@ class AutoFormParamsTest < ActionController::TestCase
 
   # ===== form_with tests (Rails 5+) =====
 
-  if Rails.version >= "5.0"
+  unless defined? Rails42
     def test_form_with_basic_functionality
       BasicController.view_paths = [ActionView::FixtureResolver.new(
         "basic/new.html.erb" => <<~FORM_WITH_BASIC
