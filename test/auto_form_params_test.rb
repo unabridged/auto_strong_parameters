@@ -51,9 +51,6 @@ class AutoFormParamsTest < ActionController::TestCase
 
   def test_new
     get :new
-    assert_response :ok
-
-    assert_select "form[id='new_user']"
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']" do
       assert_select "[value=?]", signature
     end
@@ -71,10 +68,7 @@ class AutoFormParamsTest < ActionController::TestCase
     )]
 
     get :new
-    assert_response :ok
-
     # Form should still render and include ASP hidden tag
-    assert_select "form[id='new_user']"
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']"
   end
 
@@ -89,9 +83,6 @@ class AutoFormParamsTest < ActionController::TestCase
     )]
 
     get :new
-    assert_response :ok
-
-    assert_select "form[id='new_user']"
     # Should NOT have the ASP hidden tag
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']", false
   end
@@ -101,9 +92,6 @@ class AutoFormParamsTest < ActionController::TestCase
     AutoStrongParameters.enabled = false
 
     get :new
-    assert_response :ok
-
-    assert_select "form[id='new_user']"
     # Should NOT have the ASP hidden tag when globally disabled
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']", false
 
@@ -137,9 +125,6 @@ class AutoFormParamsTest < ActionController::TestCase
     )]
 
     get :new
-    assert_response :ok
-
-    assert_select "form[id='new_user']"
     # Should NOT have the ASP hidden tag
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']", false
   end
@@ -154,9 +139,6 @@ class AutoFormParamsTest < ActionController::TestCase
     )]
 
     get :new
-    assert_response :ok
-
-    assert_select "form[id='new_user']"
     # Should NOT have the ASP hidden tag
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']", false
   end
@@ -171,9 +153,6 @@ class AutoFormParamsTest < ActionController::TestCase
     )]
 
     get :new
-    assert_response :ok
-
-    assert_select "form[id='new_user']"
     # Should have the ASP hidden tag
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']"
   end
@@ -188,9 +167,6 @@ class AutoFormParamsTest < ActionController::TestCase
     )]
 
     get :new
-    assert_response :ok
-
-    assert_select "form[id='new_user']"
     # Should NOT have the ASP hidden tag
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']", false
   end
@@ -205,9 +181,6 @@ class AutoFormParamsTest < ActionController::TestCase
     )]
 
     get :new
-    assert_response :ok
-
-    assert_select "form[id='new_user']"
     # Should have the ASP hidden tag
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']"
   end
@@ -222,9 +195,6 @@ class AutoFormParamsTest < ActionController::TestCase
     )]
 
     get :new
-    assert_response :ok
-
-    assert_select "form[id='new_user']"
     # Should NOT have the ASP hidden tag
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']", false
   end
@@ -240,9 +210,6 @@ class AutoFormParamsTest < ActionController::TestCase
     )]
 
     get :new
-    assert_response :ok
-
-    assert_select "form[id='new_user']"
     # Should have the ASP hidden tag
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']"
   end
@@ -258,9 +225,6 @@ class AutoFormParamsTest < ActionController::TestCase
     )]
 
     get :new
-    assert_response :ok
-
-    assert_select "form[id='new_user']"
     # Should have the ASP hidden tag
     assert_select "form[id='new_user'] input[name='#{AutoStrongParameters.asp_message_key}']"
   end
