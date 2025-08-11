@@ -5,6 +5,9 @@ require 'pry'
 ENV["RAILS_ENV"] = "test"
 ENV['DATABASE_URL'] = 'sqlite3://localhost/:memory:'
 
+# Fix for Ruby 3.1+ logger compatibility with Rails 6.0+
+require 'logger' if RUBY_VERSION >= "3.0"
+
 require 'rails'
 
 case Rails.version.slice(0, 3)

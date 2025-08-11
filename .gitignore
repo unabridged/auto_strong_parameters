@@ -1,0 +1,32 @@
+# Bundle config with credentials
+/.bundle/config
+
+# Generated gemfiles (these should be regenerated)
+/gemfiles/*.lock
+
+# Logs
+/log/*.log
+
+# Temporary files
+/tmp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ruby version files
+.ruby-version
+
+# Coverage reports
+/coverage/
