@@ -52,10 +52,16 @@ module AutoStrongParameters::AutoFormParams
     RUBY_EVAL
   end
 
-  # Override form_for to capture original options. This is the only way to
-  # capture data attributes that are provided via string like
-  # "data-asp-disabled". This method signature matches Rails 4 through 7.
+  # Override form_for to capture original options (Rails 4+). This is the only
+  # way to capture data attributes that are provided via string like
+  # "data-asp-disabled".
   def form_for(record, options = {}, &block)
+    @_asp_original_options = options.dup
+    super
+  end
+
+  # Override form_with to capture original options (Rails 5+).
+  def form_with(model: nil, scope: nil, url: nil, format: nil, **options, &block)
     @_asp_original_options = options.dup
     super
   end
