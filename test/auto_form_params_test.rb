@@ -231,130 +231,132 @@ class AutoFormParamsTest < ActionController::TestCase
 
   # ===== form_with tests (Rails 5+) =====
 
-  def test_form_with_basic_functionality
-    BasicController.view_paths = [ActionView::FixtureResolver.new(
-      "basic/new.html.erb" => <<~FORM_WITH_BASIC
-        <%= form_with model: @user, url: "/auto_permit" do |f| %>
-          <%= f.text_field :name %>
-          <%= f.email_field :email %>
-        <% end %>
-      FORM_WITH_BASIC
-    )]
+  if Rails.version >= "5.0"
+    def test_form_with_basic_functionality
+      BasicController.view_paths = [ActionView::FixtureResolver.new(
+        "basic/new.html.erb" => <<~FORM_WITH_BASIC
+          <%= form_with model: @user, url: "/auto_permit" do |f| %>
+            <%= f.text_field :name %>
+            <%= f.email_field :email %>
+          <% end %>
+        FORM_WITH_BASIC
+      )]
 
-    get :new
-    # Should have the ASP hidden tag
-    assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']"
-  end
+      get :new
+      # Should have the ASP hidden tag
+      assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']"
+    end
 
-  def test_form_with_data_asp_disabled_hash_true
-    BasicController.view_paths = [ActionView::FixtureResolver.new(
-      "basic/new.html.erb" => <<~FORM_WITH_DISABLED
-        <%= form_with model: @user, url: "/auto_permit", data: { asp_disabled: true } do |f| %>
-          <%= f.text_field :name %>
-        <% end %>
-      FORM_WITH_DISABLED
-    )]
+    def test_form_with_data_asp_disabled_hash_true
+      BasicController.view_paths = [ActionView::FixtureResolver.new(
+        "basic/new.html.erb" => <<~FORM_WITH_DISABLED
+          <%= form_with model: @user, url: "/auto_permit", data: { asp_disabled: true } do |f| %>
+            <%= f.text_field :name %>
+          <% end %>
+        FORM_WITH_DISABLED
+      )]
 
-    get :new
-    # Should NOT have the ASP hidden tag
-    assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']", false
-  end
+      get :new
+      # Should NOT have the ASP hidden tag
+      assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']", false
+    end
 
-  def test_form_with_data_asp_disabled_hash_string_true
-    BasicController.view_paths = [ActionView::FixtureResolver.new(
-      "basic/new.html.erb" => <<~FORM_WITH_DISABLED
-        <%= form_with model: @user, url: "/auto_permit", data: { asp_disabled: "true" } do |f| %>
-          <%= f.text_field :name %>
-        <% end %>
-      FORM_WITH_DISABLED
-    )]
+    def test_form_with_data_asp_disabled_hash_string_true
+      BasicController.view_paths = [ActionView::FixtureResolver.new(
+        "basic/new.html.erb" => <<~FORM_WITH_DISABLED
+          <%= form_with model: @user, url: "/auto_permit", data: { asp_disabled: "true" } do |f| %>
+            <%= f.text_field :name %>
+          <% end %>
+        FORM_WITH_DISABLED
+      )]
 
-    get :new
-    # Should NOT have the ASP hidden tag
-    assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']", false
-  end
+      get :new
+      # Should NOT have the ASP hidden tag
+      assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']", false
+    end
 
-  def test_form_with_data_asp_disabled_hash_disabled
-    BasicController.view_paths = [ActionView::FixtureResolver.new(
-      "basic/new.html.erb" => <<~FORM_WITH_DISABLED
-        <%= form_with model: @user, url: "/auto_permit", data: { asp_disabled: "disabled" } do |f| %>
-          <%= f.text_field :name %>
-        <% end %>
-      FORM_WITH_DISABLED
-    )]
+    def test_form_with_data_asp_disabled_hash_disabled
+      BasicController.view_paths = [ActionView::FixtureResolver.new(
+        "basic/new.html.erb" => <<~FORM_WITH_DISABLED
+          <%= form_with model: @user, url: "/auto_permit", data: { asp_disabled: "disabled" } do |f| %>
+            <%= f.text_field :name %>
+          <% end %>
+        FORM_WITH_DISABLED
+      )]
 
-    get :new
-    # Should NOT have the ASP hidden tag
-    assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']", false
-  end
+      get :new
+      # Should NOT have the ASP hidden tag
+      assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']", false
+    end
 
-  def test_form_with_data_asp_disabled_hash_false
-    BasicController.view_paths = [ActionView::FixtureResolver.new(
-      "basic/new.html.erb" => <<~FORM_WITH_ENABLED
-        <%= form_with model: @user, url: "/auto_permit", data: { asp_disabled: false } do |f| %>
-          <%= f.text_field :name %>
-        <% end %>
-      FORM_WITH_ENABLED
-    )]
+    def test_form_with_data_asp_disabled_hash_false
+      BasicController.view_paths = [ActionView::FixtureResolver.new(
+        "basic/new.html.erb" => <<~FORM_WITH_ENABLED
+          <%= form_with model: @user, url: "/auto_permit", data: { asp_disabled: false } do |f| %>
+            <%= f.text_field :name %>
+          <% end %>
+        FORM_WITH_ENABLED
+      )]
 
-    get :new
-    # Should have the ASP hidden tag
-    assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']"
-  end
+      get :new
+      # Should have the ASP hidden tag
+      assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']"
+    end
 
-  def test_form_with_data_asp_disabled_hash_enabled
-    BasicController.view_paths = [ActionView::FixtureResolver.new(
-      "basic/new.html.erb" => <<~FORM_WITH_ENABLED
-        <%= form_with model: @user, url: "/auto_permit", data: { asp_disabled: "enabled" } do |f| %>
-          <%= f.text_field :name %>
-        <% end %>
-      FORM_WITH_ENABLED
-    )]
+    def test_form_with_data_asp_disabled_hash_enabled
+      BasicController.view_paths = [ActionView::FixtureResolver.new(
+        "basic/new.html.erb" => <<~FORM_WITH_ENABLED
+          <%= form_with model: @user, url: "/auto_permit", data: { asp_disabled: "enabled" } do |f| %>
+            <%= f.text_field :name %>
+          <% end %>
+        FORM_WITH_ENABLED
+      )]
 
-    get :new
-    # Should have the ASP hidden tag
-    assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']"
-  end
+      get :new
+      # Should have the ASP hidden tag
+      assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']"
+    end
 
-  def test_form_with_data_asp_disable_string_key_disabled
-    BasicController.view_paths = [ActionView::FixtureResolver.new(
-      "basic/new.html.erb" => <<~FORM_WITH_STRING_DISABLED
-        <%= form_with model: @user, url: "/auto_permit", "data-asp-disabled": "disabled" do |f| %>
-          <%= f.text_field :name %>
-        <% end %>
-      FORM_WITH_STRING_DISABLED
-    )]
+    def test_form_with_data_asp_disable_string_key_disabled
+      BasicController.view_paths = [ActionView::FixtureResolver.new(
+        "basic/new.html.erb" => <<~FORM_WITH_STRING_DISABLED
+          <%= form_with model: @user, url: "/auto_permit", "data-asp-disabled": "disabled" do |f| %>
+            <%= f.text_field :name %>
+          <% end %>
+        FORM_WITH_STRING_DISABLED
+      )]
 
-    get :new
-    # Should NOT have the ASP hidden tag
-    assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']", false
-  end
+      get :new
+      # Should NOT have the ASP hidden tag
+      assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']", false
+    end
 
-  def test_form_with_data_asp_disable_string_key_false
-    BasicController.view_paths = [ActionView::FixtureResolver.new(
-      "basic/new.html.erb" => <<~FORM_WITH_STRING_ENABLED
-        <%= form_with model: @user, url: "/auto_permit", "data-asp-disabled": false do |f| %>
-          <%= f.text_field :name %>
-        <% end %>
-      FORM_WITH_STRING_ENABLED
-    )]
+    def test_form_with_data_asp_disable_string_key_false
+      BasicController.view_paths = [ActionView::FixtureResolver.new(
+        "basic/new.html.erb" => <<~FORM_WITH_STRING_ENABLED
+          <%= form_with model: @user, url: "/auto_permit", "data-asp-disabled": false do |f| %>
+            <%= f.text_field :name %>
+          <% end %>
+        FORM_WITH_STRING_ENABLED
+      )]
 
-    get :new
-    # Should have the ASP hidden tag
-    assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']"
-  end
+      get :new
+      # Should have the ASP hidden tag
+      assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']"
+    end
 
-  def test_form_with_url_syntax
-    BasicController.view_paths = [ActionView::FixtureResolver.new(
-      "basic/new.html.erb" => <<~FORM_WITH_URL
-        <%= form_with url: "/auto_permit", "data-asp-disabled": "disabled" do |f| %>
-          <%= f.text_field :name %>
-        <% end %>
-      FORM_WITH_URL
-    )]
+    def test_form_with_url_syntax
+      BasicController.view_paths = [ActionView::FixtureResolver.new(
+        "basic/new.html.erb" => <<~FORM_WITH_URL
+          <%= form_with url: "/auto_permit", "data-asp-disabled": "disabled" do |f| %>
+            <%= f.text_field :name %>
+          <% end %>
+        FORM_WITH_URL
+      )]
 
-    get :new
-    # Should NOT have the ASP hidden tag
-    assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']", false
+      get :new
+      # Should NOT have the ASP hidden tag
+      assert_select "form input[name='#{AutoStrongParameters.asp_message_key}']", false
+    end
   end
 end
