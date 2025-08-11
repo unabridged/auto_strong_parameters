@@ -6,6 +6,8 @@ end
 appraise "rails-5-2" do
   gem "rails", "~> 5.2.8"
   gem "ruby3-backward-compatibility" if RUBY_VERSION >= "3.0"
+  # Pin Rack to version compatible with Rails 5.2 and Ruby 3.1+
+  gem "rack", "~> 2.0.9"
 end
 
 appraise "rails-6-0" do
