@@ -4,7 +4,7 @@ module AutoStrongParameters::AutoFormParams
   extend ActiveSupport::Concern
 
   included do
-    attr_reader :_asp_fields
+    attr_reader :_asp_fields, :_asp_original_options
   end
 
   ASP_NAME_REGEX = /\sname=\"(.+?)\"/
@@ -50,6 +50,14 @@ module AutoStrongParameters::AutoFormParams
         end
       end
     RUBY_EVAL
+  end
+
+  # Override form_for to capture original options. This is the only way to
+  # capture data attributes that are provided via string like
+  # "data-asp-disabled". This method signature matches Rails 4 through 7.
+  def form_for(record, options = {}, &block)
+    @_asp_original_options = options.dup
+    super
   end
 
   private
@@ -101,9 +109,22 @@ module AutoStrongParameters::AutoFormParams
   def auto_strong_parameters_enabled?(opts)
     return false if AutoStrongParameters.disabled?
 
-    # Check both hash key and string key formats
-    inline_val = opts.dig("data", :asp_disabled) || opts["data-asp-disabled"] || opts[:data_asp_disabled]
+    # Check both processed options and original options
+    # Use trailing predicates instead of ||= to handle false values.
+    inline_val = opts.dig("data", :asp_disabled)
+    inline_val = opts["data-asp-disabled"] if inline_val.nil?
+    inline_val = opts[:data_asp_disabled] if inline_val.nil?
+    inline_val = opts[:'data-asp-disabled'] if inline_val.nil?
 
-    inline_val.blank? || inline_val.to_s.in?(['enabled', 'false'])
+    # If not found in processed options, check original options from form_for
+    if inline_val.nil? && defined?(@_asp_original_options) && @_asp_original_options
+      inline_val = @_asp_original_options["data-asp-disabled"]
+      inline_val = @_asp_original_options[:'data-asp-disabled'] if inline_val.nil?
+    end
+
+    # If inline_val is blank, ASP is enabled by default
+    # If inline_val is explicitly set to disable ASP, honor that
+    # Otherwise ASP is enabled (including for 'enabled' and 'false' values)
+    !inline_val.to_s.in?(['disabled', 'true'])
   end
 end
