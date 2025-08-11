@@ -21,6 +21,12 @@ when "6.1"
   require "apps/rails61"
 when "7.0"
   require "apps/rails70"
+when "7.1"
+  require "apps/rails71"
+when "7.2"
+  require "apps/rails72"
+when "8.0"
+  require "apps/rails80"
 else
-  raise "Un-tested version of Rails: #{Rails.version}"
+  raise "Version #{Rails.version} of Rails is not configured for testing."
 end
