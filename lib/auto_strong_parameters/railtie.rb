@@ -12,11 +12,11 @@ module AutoStrongParameters
 
       ActiveSupport.on_load :action_controller do
         AutoStrongParameters::Railtie.apply_auto_permit_patch
+        Rails.application.config.filter_parameters +=
+          [AutoStrongParameters.asp_message_key]
       end
     end
-  end
 
-  class Railtie
     def self.apply_form_helpers_patch
       ActionView::Base.send(:include, AutoStrongParameters::AutoFormParams)
     end
