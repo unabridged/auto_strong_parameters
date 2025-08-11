@@ -7,7 +7,7 @@ module AutoStrongParameters::AutoFormParams
     attr_reader :_asp_fields, :_asp_original_options
   end
 
-  ASP_NAME_REGEX = /\sname=\"(.+?)\"/
+  ASP_NAME_REGEX = /\bname=\"(.+?)\"/
   ASP_DIGIT_REGEX = /\[\d+\]/
 
   TRACKED_FIELDS = %w(
@@ -30,10 +30,12 @@ module AutoStrongParameters::AutoFormParams
     radio_button
     range_field
     rich_text_area
+    rich_textarea
     search_field
     select
     telephone_field
     text_area
+    textarea
     text_field
     time_field
     time_zone_select
@@ -61,9 +63,16 @@ module AutoStrongParameters::AutoFormParams
   end
 
   # Override form_with to capture original options (Rails 5+).
-  def form_with(model: nil, scope: nil, url: nil, format: nil, **options, &block)
-    @_asp_original_options = options.dup
-    super
+  def form_with(**args, &block)
+    @_asp_original_options = args.dup
+
+    # Rails 8 requires model to be an object or false, not nil
+    # If model is nil and url is provided, set model to false for Rails 8 compatibility
+    if args[:model].nil? && args[:url]
+      args[:model] = false
+    end
+
+    super(**args, &block)
   end
 
   private
