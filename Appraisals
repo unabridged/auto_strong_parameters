@@ -24,3 +24,18 @@ appraise "rails-7-0" do
   gem "rails", "~> 7.0"
   gem "logger" # Fix Ruby 3.1+ compatibility
 end
+
+appraise "rails-7-1" do
+  gem "rails", "~> 7.1"
+  gem "logger" # Fix Ruby 3.1+ compatibility
+end
+
+appraise "rails-7-2" do
+  gem "rails", "~> 7.2"
+  gem "logger" # Fix Ruby 3.1+ compatibility
+end
+
+appraise "rails-8-0" do
+  gem "rails", "~> 8.0"
+  gem "logger" # Fix Ruby 3.1+ compatibility
+end
