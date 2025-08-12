@@ -110,7 +110,7 @@ AutoStrongParamters.secret = 'super duper secret'
 ```
 
 
-## How does it work?
+## Yeah but how does it work under the hood?
 
 ASP patches all standard Rails form builder input helpers to keep a list of every field added to your form (including text fields, radio buttons, textareas, hidden fields, [and more](https://github.com/unabridged/auto_strong_parameters/blob/main/lib/auto_strong_parameters/auto_form_params.rb#L13). Before placing the closing `</form>` tag into your HTML, ASP places [a hidden field](https://github.com/unabridged/auto_strong_parameters/blob/main/lib/auto_strong_parameters/auto_form_params.rb#L106) with the signed "shape" of your parameters, suitable for passing into the normal Strong Parameters API `params.require(:user).permit(your_forms_param_shape)`. ASP uses `ActiveSupport::MessageVerifier` to [sign the shape](https://github.com/unabridged/auto_strong_parameters/blob/main/lib/auto_strong_parameters/auto_form_params.rb#L94) using your application's `secret_key_base` to prevent tampering with the shape.
 
