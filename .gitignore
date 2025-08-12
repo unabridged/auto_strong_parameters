@@ -3,6 +3,7 @@
 
 # Generated gemfiles (these should be regenerated)
 /gemfiles/*.lock
+Gemfile.lock
 
 # Logs
 /log/*.log
