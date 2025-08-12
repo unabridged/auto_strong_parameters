@@ -79,9 +79,9 @@ asp_auto_permitted_params
 Disable/enable ASP globally
 
 ```ruby
-AutoStrongParamters.enabled = false
-AutoStrongParamters.enabled? # false
-AutoStrongParamters.disabled? # true
+AutoStrongParameters.enabled = false
+AutoStrongParameters.enabled? # false
+AutoStrongParameters.disabled? # true
 ```
 
 Disable ASP for a single form (works with `form_for` and `form_with`):
@@ -100,13 +100,13 @@ Global options:
 
 ```ruby
 # Name of the HTML hidden input that stores the signed parameter shape
-AutoStrongParamters.asp_message_key = :whatever_you_want
+AutoStrongParameters.asp_message_key = :whatever_you_want
 # Custom logger
-AutoStrongParamters.logger = MyCustomLogger
+AutoStrongParameters.logger = MyCustomLogger
 # Custom message verifier, must match public API with ActiveSupport::MessageVerifier
-AutoStrongParamters.verifier = MyCustomVerifier
+AutoStrongParameters.verifier = MyCustomVerifier
 # Use a different secret
-AutoStrongParamters.secret = 'super duper secret'
+AutoStrongParameters.secret = 'super duper secret'
 ```
 
 
